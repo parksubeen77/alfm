@@ -6,8 +6,7 @@ import os
 
 load_dotenv()
 
-token = os.getenv("token")
-
+token = 'MTMwODI2NDg2ODkyNjg0OTA1NQ.Geq2nL.m-4FT2w7lraIKzEdTbBkzRgpURxCYTauJK9B3k'
 if not token:
     print("토큰이 설정되지 않았습니다. .env 파일을 확인하세요.")
     exit(1)
