@@ -11,6 +11,8 @@ token = os.getenv("token")
 if not token:
     print("토큰이 설정되지 않았습니다. .env 파일을 확인하세요.")
     exit(1)
+else:
+    print("토큰이 정상적으로 로드되었습니다.")
 
 intents = discord.Intents.default()
 intents.message_content = True
