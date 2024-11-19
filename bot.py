@@ -1,13 +1,15 @@
-# discord_bot.py
 import discord, random
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
+# .env 파일에서 환경 변수 로드
 load_dotenv()
 
-token = os.getenv("token")
-if not token:
+# .env 파일에서 토큰 불러오기
+TOKEN = os.getenv('TOKEN')
+
+if not TOKEN:
     print("토큰이 설정되지 않았습니다. .env 파일을 확인하세요.")
     exit(1)
 else:
@@ -21,6 +23,9 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @bot.event
 async def on_ready():
     print(f"봇 준비 완료: {bot.user}")
+    # 슬래시 명령어 동기화
+    await bot.tree.sync()
+    print("슬래시 커맨드 동기화 완료!")
 
 @bot.tree.command(name="생존자", description="생존자 랜덤 뽑기")
 async def surviver(interaction: discord.Interaction):
@@ -34,7 +39,8 @@ async def surviver(interaction: discord.Interaction):
         '항공전문가','치어리더','인형사','화재조사관','파로부인','기사']))
 
 def run_discord_bot():
-    bot.run(token)
+    print(f"Bot token: {TOKEN}")  # 토큰을 확인하기 위해 출력
+    bot.run(TOKEN)
 
 if __name__ == "__main__":
     run_discord_bot()
