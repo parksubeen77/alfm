@@ -4,9 +4,9 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv(dotenv_path="C:\Users\bfbee\Desktop\discord-bot\.env")
 
-token = 'MTMwODI2NDg2ODkyNjg0OTA1NQ.Geq2nL.m-4FT2w7lraIKzEdTbBkzRgpURxCYTauJK9B3k'
+token = os.getenv("token")
 if not token:
     print("토큰이 설정되지 않았습니다. .env 파일을 확인하세요.")
     exit(1)
