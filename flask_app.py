@@ -1,8 +1,7 @@
 # flask_app.py
 from flask import Flask
-from discord_bot import run_discord_bot  # 봇 코드 import
-from threading import Thread
-import asyncio
+import subprocess
+import threading
 
 app = Flask(__name__)
 
@@ -14,12 +13,13 @@ def home():
 def run_flask():
     app.run(host="0.0.0.0", port=5000)
 
+# Flask와 Discord 봇을 동시에 실행하는 함수
 def run():
-    # Flask 서버 실행
-    thread_flask = Thread(target=run_flask)
-    thread_flask.start()
+    # Flask 서버를 별도 프로세스로 실행
+    threading.Thread(target=run_flask).start()
 
-    asyncio.run(run_discord_bot())
+    # Discord 봇을 별도 프로세스로 실행
+    subprocess.Popen(["python", "bot.py"])
 
 if __name__ == "__main__":
     run()
