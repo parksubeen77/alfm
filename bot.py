@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
-import asyncio
 import random
 
 load_dotenv()
@@ -32,5 +31,4 @@ async def surviver(interaction: discord.Interaction):
         '항공전문가','치어리더','인형사','화재조사관','파로부인','기사']))
 
 async def run_discord_bot():
-    await bot.start(Token)
-
+    await bot.run(TOKEN)
