@@ -3,7 +3,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 from flask import Flask
-from threading import Thread
+import multiprocessing
 
 load_dotenv()
 
@@ -26,10 +26,11 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @bot.event
 async def on_ready():
     print(f"봇 준비 완료: {bot.user}")
+    # 슬래시 명령어 동기화
     await bot.tree.sync()
     print("슬래시 커맨드 동기화 완료!")
 
-# 슬래시 커맨드 등록
+# 슬래시 명령어 등록
 @bot.tree.command(name="생존자", description="생존자 랜덤 뽑기")
 async def surviver(interaction: discord.Interaction):
     await interaction.response.send_message(random.choice([
@@ -52,10 +53,13 @@ def run_flask():
     app.run(host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
-    # 봇을 별도 스레드로 실행
-    t_bot = Thread(target=run_discord_bot)
+    # multiprocessing을 사용하여 별도의 프로세스에서 Flask와 봇을 실행
+    t_bot = multiprocessing.Process(target=run_discord_bot)
     t_bot.start()
 
-    # Flask 서버를 별도 스레드로 실행
-    t_flask = Thread(target=run_flask)
+    t_flask = multiprocessing.Process(target=run_flask)
     t_flask.start()
+
+    # 프로세스가 종료되도록 기다리기
+    t_bot.join()
+    t_flask.join()
