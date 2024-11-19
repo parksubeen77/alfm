@@ -1,5 +1,5 @@
 # discord_bot.py
-import discord
+import discord, random
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
