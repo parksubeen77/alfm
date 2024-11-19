@@ -11,7 +11,8 @@ def home():
 
 # Flask 서버 실행 함수
 def run_flask():
-    app.run(host="0.0.0.0", port=5000)
+    port = os.environ.get("PORT",5000)
+    app.run(host="0.0.0.0",port=int(port))
 
 # Flask와 Discord 봇을 동시에 실행하는 함수
 def run():
