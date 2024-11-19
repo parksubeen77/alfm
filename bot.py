@@ -2,11 +2,19 @@ import discord, random
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
+from flask import Flask
+
 
 load_dotenv()
 
 token = os.getenv("token")
 
+#Flask 앱 생성
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Discord 봇이 실행 중입니다!"
 
 # Intents 설정
 intents = discord.Intents.default()
@@ -34,5 +42,18 @@ async def surviver(interaction: discord.Interaction):
         '항공전문가','치어리더','인형사','화재조사관','파로부인','기사']))
 
 
-# 봇 실행
-bot.run(token)
+# Discord 봇 실행 함수
+def run_discord_bot():
+    bot.run(token)
+
+if __name__ == "__main__":
+    # Flask 앱 실행
+    port = int(os.environ.get("PORT", 5000))
+    
+    # 봇을 별도 스레드로 실행
+    from threading import Thread
+    t = Thread(target=run_discord_bot)
+    t.start()
+
+    # Flask 서버 실행
+    app.run(host="0.0.0.0", port=port)
