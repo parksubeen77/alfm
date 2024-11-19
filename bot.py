@@ -4,7 +4,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
-load_dotenv(dotenv_path="C:/Users/bfbee/Desktop/discord-bot/.env")
+load_dotenv()
 
 token = os.getenv("token")
 if not token:
