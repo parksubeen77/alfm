@@ -2,8 +2,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
-from flask import Flask
-from threading import Thread
+import asyncio
 import random
 
 load_dotenv()
@@ -14,12 +13,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "Discord 봇이 실행 중입니다!"
 
 @bot.event
 async def on_ready():
@@ -38,16 +31,6 @@ async def surviver(interaction: discord.Interaction):
         '여자아이','우는광대','교수','골동품상인','작곡가','기자',
         '항공전문가','치어리더','인형사','화재조사관','파로부인','기사']))
 
-def run_discord_bot():
-    bot.run(TOKEN)
+async def run_discord_bot():
+    await bot.start(Token)
 
-def run_flask():
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
-
-if __name__ == "__main__":
-    t_bot = Thread(target=run_discord_bot)
-    t_bot.start()
-
-    t_flask = Thread(target=run_flask)
-    t_flask.start()
