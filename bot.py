@@ -3,13 +3,13 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 from flask import Flask
-
+from threading import Thread
 
 load_dotenv()
 
 token = os.getenv("token")
 
-#Flask 앱 생성
+# Flask 앱 생성
 app = Flask(__name__)
 
 @app.route("/")
@@ -46,14 +46,16 @@ async def surviver(interaction: discord.Interaction):
 def run_discord_bot():
     bot.run(token)
 
-if __name__ == "__main__":
-    # Flask 앱 실행
+# Flask 서버 실행 함수
+def run_flask():
     port = int(os.environ.get("PORT", 5000))
-    
-    # 봇을 별도 스레드로 실행
-    from threading import Thread
-    t = Thread(target=run_discord_bot)
-    t.start()
-
-    # Flask 서버 실행
     app.run(host="0.0.0.0", port=port)
+
+if __name__ == "__main__":
+    # 봇을 별도 스레드로 실행
+    t_bot = Thread(target=run_discord_bot)
+    t_bot.start()
+
+    # Flask 서버를 별도 스레드로 실행
+    t_flask = Thread(target=run_flask)
+    t_flask.start()
